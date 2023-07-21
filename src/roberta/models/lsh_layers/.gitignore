@@ -1,0 +1,6 @@
+.idea/
+mongoose_reformer/train_reformer_lm.py
+mongoose_slide/train_slide.py
+mongoose_slide/train_slide_baseline.py
+mongoose_slide/train_slide_full.py
+mongoose_slide/train_slide_full.py

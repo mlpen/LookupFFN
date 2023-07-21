@@ -1,0 +1,1 @@
+docker run --runtime=nvidia --ipc=host --gpus all -it -v "$PWD:/workspace" -v "$PWD/../data:/nobackup/zhanpeng" mlpen/transformers:1

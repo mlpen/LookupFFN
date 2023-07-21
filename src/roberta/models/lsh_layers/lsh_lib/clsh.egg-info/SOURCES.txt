@@ -1,0 +1,7 @@
+LSH.cpp
+clsh.cpp
+setup.py
+clsh.egg-info/PKG-INFO
+clsh.egg-info/SOURCES.txt
+clsh.egg-info/dependency_links.txt
+clsh.egg-info/top_level.txt
