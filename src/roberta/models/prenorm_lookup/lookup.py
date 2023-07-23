@@ -63,16 +63,17 @@ class Hashing(nn.Module):
 
     def forward(self, x):
         B, D = x.shape
-        t0 = time.time()
+
+        # t0 = time.time()
         z = self.projection(x)
-        t1 = time.time()
+        # t1 = time.time()
         
         z = z.reshape(B, self.num_table, self.code_length)
         code, score = compute_code_score(z, training = self.training)
+        # t2 = time.time()
+        # print("projection", t1 - t0)
+        # print("compute_code_score", t2 - t1)
 
-        t2 = time.time()
-        print("projection", t1 - t0)
-        print("compute_code_score", t2 - t1)
         return code, score
 
 class LookupFFN(nn.Module):
@@ -100,8 +101,11 @@ class LookupFFN(nn.Module):
 
         code, score = self.hash(hidden_states)
         
+        # t0 = time.time()
         outputs = self.gather(code, score, self.tables)
-        
+        # t1 = time.time()
+        # print("gather", t1 - t0)
+
         outputs = outputs + self.bias
 
         return outputs
@@ -120,12 +124,8 @@ class LookupFFN(nn.Module):
         assert weights.shape[0] == B
         assert weights.shape[1] == N
 
-        t0 = time.time()
         indexes = indexes + torch.arange(num_table, device = indexes.device, dtype = indexes.dtype)[None] * table_size
         tables = tables.reshape(num_table * table_size, vector_dim)
         outputs = gather(indexes, weights, tables, training = self.training)
-
-        t1 = time.time()
-        print("gather", t1 - t0)
 
         return outputs
