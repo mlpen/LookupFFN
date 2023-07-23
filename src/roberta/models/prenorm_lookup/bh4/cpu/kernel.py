@@ -56,8 +56,9 @@ class BH4Function(Function):
         assert x.shape[0] == 64 * 512, x.shape
         assert x.shape[1] == 512, x.shape
         assert w.shape[1] == 4, w.shape
-        assert w.shape[2] == 64, w.shape
-        assert w.shape[3] == 64, w.shape
+        assert w.shape[-1] == 64, w.shape
+        assert w.shape[-2] == 64, w.shape
+        assert w.shape[2] == 8
         return bh4(x, w)
 
     @staticmethod
