@@ -43,12 +43,12 @@ block = nn.Sequential(
     nn.GELU(),
     nn.Linear(2048, 512)
 )
+block.eval()
     
 num_iters = 20
 
 x = torch.randn(B, D)
 block(x)
-block.eval()
 
 t0 = time.perf_counter()
 for _ in range(num_iters):
