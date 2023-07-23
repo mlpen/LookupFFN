@@ -123,13 +123,9 @@ class LookupFFN(nn.Module):
         t0 = time.time()
         indexes = indexes + torch.arange(num_table, device = indexes.device, dtype = indexes.dtype)[None] * table_size
         tables = tables.reshape(num_table * table_size, vector_dim)
-
-        t1 = time.time()
-
         outputs = gather(indexes, weights, tables, training = self.training)
 
-        t2 = time.time()
-        print("global", t1 - t0)
-        print("gather", t2 - t1)
+        t1 = time.time()
+        print("gather", t1 - t0)
 
         return outputs
