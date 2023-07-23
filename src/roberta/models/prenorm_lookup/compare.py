@@ -5,7 +5,7 @@ from torch.utils.cpp_extension import load
 import os
 import time
 import math
-from argparse import NameSpace
+from argparse import Namespace
 from .lookup import LookupFFN
 
 B = 64 * 512
@@ -32,7 +32,7 @@ print('time:', (t1 - t0) / num_iters)
 print('Throughput:', num_iters / (t1 - t0))
 
 
-config = NameSpace(
+config = Namespace(
     hidden_size = 512, 
     ffn_num_table = 128, 
     ffn_table_size = 256, 
