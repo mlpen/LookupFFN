@@ -16,7 +16,7 @@ class BH4(nn.Module):
 
         self.padded_in_dim = int(2 ** math.ceil(math.log2(in_dim)))
         self.num_repeat = max(1, int(math.ceil(self.out_dim / self.padded_in_dim)))
-        self.num_block = self.hidden_size // self.block_size
+        self.num_block = self.padded_in_dim // self.block_size
         
         coeff = math.sqrt(self.block_size * self.padded_in_dim)
         self.weight = nn.Parameter(torch.randn(self.num_repeat, 4, self.num_block, self.block_size, self.block_size) / coeff)
