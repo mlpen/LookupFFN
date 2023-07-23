@@ -72,7 +72,7 @@ class WeightedVectorGatherAdd(Function):
         # outputs = [batch_size, vector_dim]
         assert indexes.shape[0] == 64 * 512
         assert indexes.shape[1] == 128
-        assert source.shape[0] == 64 * 256
+        assert source.shape[0] == 128 * 256
         assert source.shape[1] == 512
 
         indexes, source, weights = indexes.contiguous(), source.contiguous(), weights.contiguous()
