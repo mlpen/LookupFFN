@@ -41,7 +41,7 @@ class BH4(nn.Module):
         dim = xs.shape[-1]
         xs = xs.reshape(np.prod(shape).item(), dim)
         outputs = self._forward(xs)
-        outputs = outputs.reshape(*shape, dim)
+        outputs = outputs.reshape(*shape, self.out_dim)
         return outputs
 
 class Hashing(nn.Module):
