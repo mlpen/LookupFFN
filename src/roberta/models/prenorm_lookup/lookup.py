@@ -31,8 +31,8 @@ class BH4(nn.Module):
             padding_dim = self.padded_in_dim - dim
             x = torch.cat([x, torch.zeros(batch_size, padding_dim, dtype = x.dtype, device = x.device)], dim = -1).contiguous()
 
-        x = self.decay_coeff * bh4(x, self.weight, training = self.training) + (1 - self.decay_coeff) * x + self.bias
-        x = x[:, :self.out_dim].contiguous()
+        x = self.decay_coeff * bh4(x, self.weight, training = self.training) + (1 - self.decay_coeff) * x.repeat(1, self.num_repeat)
+        x = x[:, :self.out_dim].contiguous() + self.bias
 
         return x
 
