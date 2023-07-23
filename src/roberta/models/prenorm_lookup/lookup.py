@@ -90,7 +90,7 @@ class LookupFFN(nn.Module):
         hidden_states = self.LayerNorm(hidden_states)
 
         code, score = self.hash(hidden_states)
-        outputs = self.gather(code, score, self.tables, training = self.training)
+        outputs = self.gather(code, score, self.tables)
         outputs = outputs + self.bias
 
         return outputs
@@ -103,7 +103,7 @@ class LookupFFN(nn.Module):
         outputs = outputs.reshape(*shape, self.output_size)
         return outputs
     
-    def gather(indexes, weights, tables):
+    def gather(self, indexes, weights, tables):
         B, N = indexes.shape
         num_table, table_size, vector_dim = tables.shape
         assert weights.shape[0] == B
@@ -112,6 +112,6 @@ class LookupFFN(nn.Module):
         indexes = indexes + torch.arange(num_table, device = indexes.device, dtype = indexes.dtype)[None] * table_size
         tables = tables.reshape(num_table * table_size, vector_dim)
 
-        outputs = gather(indexes, weights, tables)
+        outputs = gather(indexes, weights, tables, training = self.training)
 
         return outputs
