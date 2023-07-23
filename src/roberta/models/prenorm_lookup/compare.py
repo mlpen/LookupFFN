@@ -11,13 +11,18 @@ from .lookup import LookupFFN
 B = 64 * 512
 D = 512
 
-block = nn.Sequential(
-    nn.LayerNorm(512, eps = 1e-5),
-    nn.Linear(512, 2048),
-    nn.GELU(),
-    nn.Linear(2048, 512)
+config = Namespace(
+    hidden_size = 512, 
+    ffn_num_table = 128, 
+    ffn_table_size = 256, 
+    layer_norm_eps = 1e-5,
+    projection_type = "bh4",
+    block_size = 64,
 )
-    
+
+block = LookupFFN(config, output_size = 512)
+block.eval()
+
 num_iters = 20
 
 x = torch.randn(B, D)
@@ -32,21 +37,18 @@ print('time:', (t1 - t0) / num_iters)
 print('Throughput:', num_iters / (t1 - t0))
 
 
-config = Namespace(
-    hidden_size = 512, 
-    ffn_num_table = 128, 
-    ffn_table_size = 256, 
-    layer_norm_eps = 1e-5,
-    projection_type = "bh4",
-    block_size = 64,
+block = nn.Sequential(
+    nn.LayerNorm(512, eps = 1e-5),
+    nn.Linear(512, 2048),
+    nn.GELU(),
+    nn.Linear(2048, 512)
 )
-
-block = LookupFFN(config, output_size = 512)
-
+    
 num_iters = 20
 
 x = torch.randn(B, D)
 block(x)
+block.eval()
 
 t0 = time.perf_counter()
 for _ in range(num_iters):
