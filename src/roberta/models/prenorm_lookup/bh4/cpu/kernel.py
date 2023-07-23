@@ -53,7 +53,7 @@ def bh4(x, w):
 class BH4Function(Function):
     @staticmethod
     def forward(ctx, x, w):
-        assert x.shape[0] == 64 * 256
+        assert x.shape[0] == 64 * 512
         assert x.shape[1] == 512
         assert w.shape[1] == 4
         assert w.shape[2] == 64
