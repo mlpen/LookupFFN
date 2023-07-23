@@ -36,7 +36,7 @@ try:
 
     sbdht_cpu.setup_xsmm_kernel_float_avx2(BS, BS, BS, D, BS, D)
 except Exception as e:
-    print(e)
+    raise e
 
 def fwht_(x):
     sbdht_cpu.fwht_cpu_fp32_avx2_(x)
