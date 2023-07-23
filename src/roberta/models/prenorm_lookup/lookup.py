@@ -5,6 +5,7 @@ import numpy as np
 from .bh4.kernel import bh4
 from .compute_code_score.kernel import compute_code_score
 from .gather.kernel import gather
+import time
 
 class BH4(nn.Module):
     def __init__(self, in_dim, out_dim, block_size, decay_coeff = 0.7):
@@ -26,6 +27,7 @@ class BH4(nn.Module):
         return f"in_dim={self.in_dim}, out_dim={self.out_dim}, block_size={self.block_size}, decay_coeff={self.decay_coeff}"
 
     def _forward(self, x):
+        
         batch_size, dim = x.shape
         if dim < self.padded_in_dim:
             padding_dim = self.padded_in_dim - dim
@@ -33,7 +35,7 @@ class BH4(nn.Module):
 
         x = self.decay_coeff * bh4(x, self.weight, training = self.training) + (1 - self.decay_coeff) * x.repeat(1, self.num_repeat)
         x = x[:, :self.out_dim].contiguous() + self.bias
-
+        
         return x
 
     def forward(self, xs):
@@ -61,9 +63,16 @@ class Hashing(nn.Module):
 
     def forward(self, x):
         B, D = x.shape
+        t0 = time.time()
         z = self.projection(x)
+        t1 = time.time()
+        
         z = z.reshape(B, self.num_table, self.code_length)
         code, score = compute_code_score(z, training = self.training)
+
+        t2 = time.time()
+        print("projection", t1 - t0)
+        print("compute_code_score", t2 - t1)
         return code, score
 
 class LookupFFN(nn.Module):
