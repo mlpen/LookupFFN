@@ -22,7 +22,7 @@ model.hidden_dropout_prob = 0.1
 model.attention_probs_dropout_prob = 0.1
 model.max_position_embeddings = 512
 
-model.hash_linear_type = "bh4"
+model.projection_type = "bh4"
 model.block_size = 64
 model.ffn_num_table = 64
 model.ffn_table_size = 256
