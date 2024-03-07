@@ -10,18 +10,18 @@ from .cpu.kernel import weighted_gather_add as weighted_gather_add_cpu
 
 def gather(indices, weights, tables, training):
     if training:
-        assert indices.device == torch.device("cuda")
-        assert weights.device == torch.device("cuda")
-        assert tables.device == torch.device("cuda")
+        assert indices.is_cuda
+        assert weights.is_cuda
+        assert tables.is_cuda
         return weighted_gather_add_cuda(indices, tables, weights)
     else:
-        if indices.device == torch.device("cpu"):
-            assert weights.device == torch.device("cpu")
-            assert tables.device == torch.device("cpu")
+        if not indices.is_cuda:
+            assert not weights.is_cuda
+            assert not tables.is_cuda
             return weighted_gather_add_cpu(indices, tables, weights)
         else:
-            assert weights.device == torch.device("cuda")
-            assert tables.device == torch.device("cuda")
+            assert weights.is_cuda
+            assert tables.is_cuda
             return weighted_gather_add_cuda(indices, tables, weights)
         
     

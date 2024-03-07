@@ -9,15 +9,15 @@ import math
 
 def bh4(x, w, training):
     if training:
-        assert x.device == torch.device("cuda")
-        assert w.device == torch.device("cuda")
+        assert x.is_cuda
+        assert w.is_cuda
         return bh4_cuda(x, w)
     else:
         if x.device == torch.device("cpu"):
-            assert w.device == torch.device("cpu")
+            assert not w.is_cuda
             return BH4Function.apply(x, w)
         else:
-            assert w.device == torch.device("cuda")
+            assert w.is_cuda
             return bh4_cuda(x, w)
 
 def bh4_cuda(x, w):

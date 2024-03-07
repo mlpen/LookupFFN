@@ -21,9 +21,10 @@ import ccs_cpu
 
 def compute_code_score(hash_scores, training):
     if training:
+        assert hash_scores.is_cuda
         return compute_code_score_torch(hash_scores)
     else:
-        if hash_scores.device == torch.device("cpu"):
+        if not hash_scores.is_cuda:
             return ComputeCodeScore.apply(hash_scores)
         else:
             return compute_code_score_torch(hash_scores)
