@@ -1,5 +1,8 @@
 # Official Repo for LookupFFN
 
+## Updates
+05/06/2024: fixed bugs and added more config files
+
 ## Dataset Preparation
 All codes for dataset preparation are located at `src/datasets_scripts`
 
