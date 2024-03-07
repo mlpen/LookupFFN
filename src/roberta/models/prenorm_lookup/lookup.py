@@ -93,7 +93,6 @@ class LookupFFN(nn.Module):
     def extra_repr(self):
         strs = []
         strs.append(f"hidden_size={self.hidden_size}, num_table={self.num_table}, table_size={self.table_size}, output_size={self.output_size}")
-        strs.append(f"num_query_per_table={self.num_query_per_table}, compute_type={self.compute_type}")
         return "\n".join(strs)
 
     def _forward(self, hidden_states):
