@@ -57,6 +57,7 @@ def compute_code_score_torch(hash_scores):
 class ComputeCodeScore(Function):
     @staticmethod
     def forward(ctx, hash_scores):
+        hash_scores = hash_scores.contiguous()
         return compute_code_score_cpu(hash_scores)
 
     @staticmethod

@@ -56,19 +56,23 @@ class FastHadamardTransform(Function):
 class FastHadamardTransformDim512(Function):
     @staticmethod
     def forward(ctx, inp):
+        inp = inp.contiguous()
         return fast_hadamard_transform_dim512(inp)
 
     @staticmethod
     def backward(ctx, grad_outputs):
+        grad_outputs = grad_outputs.contiguous()
         return fast_hadamard_transform_dim512(grad_outputs)
 
 class FastHadamardTransformDim1024(Function):
     @staticmethod
     def forward(ctx, inp):
+        inp = inp.contiguous()
         return fast_hadamard_transform_dim1024(inp)
 
     @staticmethod
     def backward(ctx, grad_outputs):
+        grad_outputs = grad_outputs.contiguous()
         return fast_hadamard_transform_dim1024(grad_outputs)
 
 def hadamard(inp, use_torch = False):
