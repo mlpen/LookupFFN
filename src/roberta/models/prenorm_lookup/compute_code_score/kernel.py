@@ -23,12 +23,10 @@ def compute_code_score(hash_scores, training):
     if training:
         return compute_code_score_torch(hash_scores)
     else:
-        if hash_scores.device == torch.device("cuda"):
-            return compute_code_score_torch(hash_scores)
-        elif hash_scores.device == torch.device("cpu"):
+        if hash_scores.device == torch.device("cpu"):
             return ComputeCodeScore.apply(hash_scores)
         else:
-            raise NotImplementedError
+            return compute_code_score_torch(hash_scores)
 
 def bin2dec(b, bits):
     mask = 2 ** torch.arange(bits - 1, -1, -1, dtype = b.dtype, device = b.device)
