@@ -23,10 +23,10 @@ class Attention(nn.Module):
 
         self.LayerNorm = nn.LayerNorm(config.hidden_size, eps = config.layer_norm_eps)
 
-        self.query = import_from_string(config.attntion_linear_type)(config)
-        self.key = import_from_string(config.attntion_linear_type)(config)
-        self.value = import_from_string(config.attntion_linear_type)(config)
-        self.dense = import_from_string(config.attntion_linear_type)(config)
+        self.query = nn.Linear(config.hidden_size, config.hidden_size)
+        self.key = nn.Linear(config.hidden_size, config.hidden_size)
+        self.value = nn.Linear(config.hidden_size, config.hidden_size)
+        self.dense = nn.Linear(config.hidden_size, config.hidden_size)
 
     def transpose_for_scores(self, x: torch.Tensor) -> torch.Tensor:
         new_x_shape = x.size()[:-1] + (self.num_attention_heads, self.attention_head_size)
