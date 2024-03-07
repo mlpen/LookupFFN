@@ -33,7 +33,7 @@ def bh4_cuda(x, w):
             y = y.reshape(B, D)
             y = hadamard(y)
         out.append(y)
-    return torch.stack(out, dim = -1)
+    return torch.cat(out, dim = -1)
 
 # if __name__ == "__main__":
 #     unit_test()
