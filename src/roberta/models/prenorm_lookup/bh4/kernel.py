@@ -13,14 +13,12 @@ def bh4(x, w, training):
         assert w.device == torch.device("cuda")
         return bh4_cuda(x, w)
     else:
-        if x.device == torch.device("cuda"):
-            assert w.device == torch.device("cuda")
-            return bh4_cuda(x, w)
-        elif x.device == torch.device("cpu"):
+        if x.device == torch.device("cpu"):
             assert w.device == torch.device("cpu")
             return BH4Function.apply(x, w)
         else:
-            raise NotImplementedError
+            assert w.device == torch.device("cuda")
+            return bh4_cuda(x, w)
 
 def bh4_cuda(x, w):
     BS = w.shape[-1]

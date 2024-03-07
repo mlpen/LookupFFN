@@ -15,15 +15,13 @@ def gather(indices, weights, tables, training):
         assert tables.device == torch.device("cuda")
         return weighted_gather_add_cuda(indices, tables, weights)
     else:
-        if indices.device == torch.device("cuda"):
-            assert weights.device == torch.device("cuda")
-            assert tables.device == torch.device("cuda")
-            return weighted_gather_add_cuda(indices, tables, weights)
-        elif indices.device == torch.device("cpu"):
+        if indices.device == torch.device("cpu"):
             assert weights.device == torch.device("cpu")
             assert tables.device == torch.device("cpu")
             return weighted_gather_add_cpu(indices, tables, weights)
         else:
-            raise NotImplementedError
+            assert weights.device == torch.device("cuda")
+            assert tables.device == torch.device("cuda")
+            return weighted_gather_add_cuda(indices, tables, weights)
         
     
